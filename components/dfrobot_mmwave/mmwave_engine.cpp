@@ -1457,16 +1457,16 @@ uint16_t Engine::couple_ranges_() {
   const float mx = this->value_for_(max_id);
   if (!finite(trig) || !finite(mx))
     return 0;
-  static constexpr float EPS = 1e-3f;
+  static constexpr float EPSILON_VALUE = 1e-3f;
   ParamId adj_id;
   float adj;
   if (trig_req) {
-    if (trig <= mx + EPS)
+    if (trig <= mx + EPSILON_VALUE)
       return 0;
     adj_id = max_id;
     adj = trig;
   } else {
-    if (mx >= trig - EPS)
+    if (mx >= trig - EPSILON_VALUE)
       return 0;
     const float mn = this->value_for_(ParamId::PARAM_ID_RANGE_MIN);
     if (finite(mn) && !(mn < mx))
@@ -1479,7 +1479,7 @@ uint16_t Engine::couple_ranges_() {
     adj = l.lo;
   if (adj > l.hi)
     adj = l.hi;
-  if (trig_req ? adj < trig - EPS : adj > mx + EPS)
+  if (trig_req ? adj < trig - EPSILON_VALUE : adj > mx + EPSILON_VALUE)
     return 0;
   this->snapshot_[idx(adj_id)] = adj;
   this->snapshot_has_[idx(adj_id)] = true;
