@@ -1346,7 +1346,7 @@ bool Engine::build_set_(GroupId g, Command &c) {
         if (!this->snapshot_has_[idx(en_id)])
           return false;
       }
-      // with no known period (a passive radar) only the enable flag is written and the radar keeps its mode
+      // with no known period (a passive radar) only the enable flag is written and the radar ke its mode
       return true;
     }
     default:
@@ -1461,12 +1461,12 @@ uint16_t Engine::couple_ranges_() {
   ParamId adj_id;
   float adj;
   if (trig_req) {
-    if (trig <= mx + EPS)
+    if (trig <= mx + EPSILON_VALUE)
       return 0;
     adj_id = max_id;
     adj = trig;
   } else {
-    if (mx >= trig - EPS)
+    if (mx >= trig - EPSILON_VALUE)
       return 0;
     const float mn = this->value_for_(ParamId::PARAM_ID_RANGE_MIN);
     if (finite(mn) && !(mn < mx))
@@ -1479,7 +1479,7 @@ uint16_t Engine::couple_ranges_() {
     adj = l.lo;
   if (adj > l.hi)
     adj = l.hi;
-  if (trig_req ? adj < trig - EPS : adj > mx + EPS)
+  if (trig_req ? adj < trig - EPSILON_VALUE : adj > mx + EPSILON_VALUE)
     return 0;
   this->snapshot_[idx(adj_id)] = adj;
   this->snapshot_has_[idx(adj_id)] = true;
